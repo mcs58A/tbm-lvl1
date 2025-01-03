@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Health Check Form</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <h1>Daily Health Check</h1>
+  <form id="healthForm">
+    <label for="name">Name:</label>
+    <input type="text" id="name" name="name" required>
+
+    <label for="date">Date:</label>
+    <input type="date" id="date" name="date" required>
+
+    <label>Feeling Well?</label>
+    <label><input type="radio" name="feeling" value="Yes" required> Yes</label>
+    <label><input type="radio" name="feeling" value="No" required> No</label>
+
+    <label for="signature">Signature:</label>
+    <canvas id="signature" width="300" height="100" style="border:1px solid #000;"></canvas>
+    <button type="button" id="clearCanvas">Clear</button>
+
+    <button type="submit">Submit</button>
+  </form>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
