@@ -45,11 +45,12 @@ document.getElementById("healthForm").addEventListener("submit", async (event) =
 const canvas = document.getElementById("signature");
 const ctx = canvas.getContext("2d");
 let isDrawing = false;
-let hasDrawn = false; // New flag to track if drawing occurred
+let hasDrawn = false;
 
+// For mouse interactions
 canvas.addEventListener("mousedown", () => {
   isDrawing = true;
-  hasDrawn = true; // Set to true when drawing starts
+  hasDrawn = true;
 });
 canvas.addEventListener("mouseup", () => {
   isDrawing = false;
@@ -57,17 +58,41 @@ canvas.addEventListener("mouseup", () => {
 });
 canvas.addEventListener("mousemove", (event) => {
   if (!isDrawing) return;
+  draw(event.offsetX, event.offsetY);
+});
+
+// For touch interactions
+canvas.addEventListener("touchstart", (event) => {
+  isDrawing = true;
+  hasDrawn = true;
+  const touch = event.touches[0];
+  draw(touch.clientX - canvas.offsetLeft, touch.clientY - canvas.offsetTop);
+  event.preventDefault(); // Prevent scrolling
+});
+canvas.addEventListener("touchmove", (event) => {
+  if (!isDrawing) return;
+  const touch = event.touches[0];
+  draw(touch.clientX - canvas.offsetLeft, touch.clientY - canvas.offsetTop);
+  event.preventDefault(); // Prevent scrolling
+});
+canvas.addEventListener("touchend", () => {
+  isDrawing = false;
+  ctx.beginPath();
+});
+
+// Draw function
+function draw(x, y) {
   ctx.lineWidth = 2;
   ctx.lineCap = "round";
   ctx.strokeStyle = "black";
-  ctx.lineTo(event.offsetX, event.offsetY);
+  ctx.lineTo(x, y);
   ctx.stroke();
   ctx.beginPath();
-  ctx.moveTo(event.offsetX, event.offsetY);
-});
+  ctx.moveTo(x, y);
+}
 
 // Clear signature canvas
 document.getElementById("clearCanvas").addEventListener("click", () => {
   ctx.clearRect(0, 0, canvas.width, canvas.height);
-  hasDrawn = false; // Reset flag when clearing
+  hasDrawn = false;
 });
